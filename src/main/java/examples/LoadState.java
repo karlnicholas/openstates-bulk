@@ -5,6 +5,9 @@ import java.util.logging.Logger;
 
 import org.openstates.api.OpenStatesException;
 import org.openstates.bulkdata.LoadBulkData;
+import org.openstates.data.Bill;
+import org.openstates.data.Committee;
+import org.openstates.data.Legislator;
 import org.openstates.model.Bills;
 import org.openstates.model.Committees;
 import org.openstates.model.Legislators;
@@ -18,7 +21,8 @@ public class LoadState {
 	public static void main(String[] args) throws OpenStatesException {
 		bulkData = new LoadBulkData();
 //		runtime = Runtime.getRuntime();
-
+		test( "2013-10-08-tx-json.zip", "US/Central" );
+/*
 		test( "2013-10-01-dc-json.zip", "US/Eastern" );
 		test( "2013-10-01-ky-json.zip", "US/Eastern" );		
 		test( "2013-10-07-al-json.zip", "US/Central" );
@@ -69,7 +73,7 @@ public class LoadState {
 		test( "2013-10-07-wy-json.zip", "US/Mountain" );
 		test( "2013-10-08-tx-json.zip", "US/Central" );
 		test( "2013-10-08-va-json.zip", "US/Eastern" );
-
+*/
 	}
 	
 	private static void test(String bulkDataFile, String timeZone ) throws OpenStatesException {
@@ -80,7 +84,20 @@ public class LoadState {
 		logger.info("Free Memory:" + runtime.freeMemory() / mb);
 		logger.info("Total Memory:" + runtime.totalMemory() / mb);
 		logger.info("Max Memory:" + runtime.maxMemory() / mb);
-*/		
+*/
+		for ( Legislator legislator: Legislators.legislators() ) {
+			if ( legislator.pluses != null ) System.out.println(legislator.pluses);
+			if ( legislator.newFields != null ) System.out.println(legislator.newFields);
+		}
+		for ( Bill bill: Bills.bills() ) {
+			if ( bill.pluses != null ) System.out.println(bill.pluses);
+			if ( bill.newFields != null ) System.out.println(bill.newFields);
+		}
+		for ( Committee committee: Committees.committees() ) {
+			if ( committee.pluses != null ) System.out.println(committee.pluses);
+			if ( committee.newFields != null ) System.out.println(committee.newFields);
+		}
+		
 		Bills.clear();
 		Legislators.clear();
 		Committees.clear();

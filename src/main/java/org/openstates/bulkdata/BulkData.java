@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import java.util.TreeMap;
 
 import org.openstates.api.OpenStatesException;
+import org.openstates.data.DataBase;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +24,7 @@ public class BulkData {
 	protected static ObjectMapper mapper;
 	private static SimpleDateFormat dateFormat;
 	protected static String bulkDataDir;
+
 	
 	public BulkData(ResourceBundle openStatesResources) throws OpenStatesException {
 		mapper = new ObjectMapper();
@@ -51,20 +55,34 @@ public class BulkData {
 */		
 	}
 	
-	public static class MyDeserializationProblemHandler extends DeserializationProblemHandler {
+	private static class MyDeserializationProblemHandler extends DeserializationProblemHandler {
 		public boolean handleUnknownProperty(
 			DeserializationContext ctxt,
-            JsonParser jp,
-            JsonDeserializer<?> deserializer,
-            Object beanOrClass,
-            String propertyName) throws IOException, JsonProcessingException 
-        {
+	        JsonParser jp,
+	        JsonDeserializer<?> deserializer,
+	        Object beanOrClass,
+	        String propertyName) throws IOException, JsonProcessingException 
+	    {
 			if ( propertyName.charAt(0) == '+' ) {
-				ctxt.getParser().skipChildren();
-				return true;
+				if ( beanOrClass instanceof DataBase ) {
+					DataBase base = (DataBase)beanOrClass; 
+					if ( base.pluses == null ) base.pluses = new TreeMap<String, TreeNode>();
+					base.pluses.put(propertyName, jp.readValueAsTree());
+				} else {
+					throw new RuntimeException("beanOrClass type unknown");
+				}
+			} else {
+				if ( beanOrClass instanceof DataBase ) {
+					DataBase base = (DataBase)beanOrClass; 
+					if ( base.newFields == null ) base.newFields = new TreeMap<String, TreeNode>();
+					base.newFields.put(propertyName, jp.readValueAsTree());
+				} else {
+					throw new RuntimeException("beanOrClass type unknown");
+				}
 			}
-			else return false;
-        }
+//					ctxt.getParser().skipChildren();
+			return true;
+	    }
 	}
 /*	
 	public static class LegislatorMixIn {
