@@ -1,6 +1,34 @@
 package org.openstates.bulkdata;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openstates.data.Committee;
+import org.openstates.model.Legislators;
+import org.openstates.data.Legislator;
+
+/**
+ * Utilities for the model classes.
+ *
+ */
 public class BulkDataUtils {
+	
+	/**
+	 * Get a list of the members of a committee as legislator objects.
+	 *  
+	 * @param committee
+	 * @return List<Legislator> 
+	 */
+	public static List<Legislator> getCommitteeMembers(Committee committee) {
+		ArrayList<Legislator> members = new ArrayList<Legislator>();
+		for ( Committee.Member member: committee.members ) {
+			if ( member.leg_id != null ) {
+				Legislator legislator = Legislators.get(member.leg_id);
+				if ( legislator != null ) members.add(legislator);
+			}
+		}
+		return members;
+	}
 /*
 	public static TreeMap<String, Committee> findAllCommittees(String legislatorId) {
 		TreeMap<String, Committee> byLegislator = new TreeMap<String, Committee>();

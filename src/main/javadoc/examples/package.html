@@ -1,0 +1,27 @@
+<html>
+<body>
+<pre>
+Examples program for loading BulkData from openstates.
+It requires a ResourceBundle named OpenStates. 
+This means a file named openstates.properties must be found in 
+your class path, such as your resources directory. 
+This OpenStates client reads a key from the resource 
+bundle, which is mandatory. The form is key=value.
+The keys is:
+bulkdatadir     (Mandatory) such as c:/tmp/bulkdata
+<pre>For Example:
+bulkdatadir=c:/tmp/bulkdata
+</pre>
+The example.java program is this:
+	new LoadBulkData().load("2013-10-08-tx-json.zip", "US/Central");
+	for ( Legislator legislator: Legislators.legislators() ) {
+		System.out.println(legislator.full_name);
+	}
+	for ( Bill bill: Bills.bills() ) {
+		System.out.println(bill.title);
+	}
+	for ( Committee committee: Committees.committees() ) {
+		System.out.println(committee.committee);
+	}
+</pre>
+</body></html>

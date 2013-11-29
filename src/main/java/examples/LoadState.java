@@ -5,13 +5,15 @@ import java.util.logging.Logger;
 
 import org.openstates.api.OpenStatesException;
 import org.openstates.bulkdata.LoadBulkData;
-import org.openstates.data.Bill;
-import org.openstates.data.Committee;
-import org.openstates.data.Legislator;
 import org.openstates.model.Bills;
 import org.openstates.model.Committees;
 import org.openstates.model.Legislators;
 
+/**
+ * Example class that loads all of the bulkdata files, one at a time, clearing
+ * the model classes after each load.
+ *
+ */
 public class LoadState {
 	private static final Logger logger = Logger.getLogger(LoadState.class.getCanonicalName());
 	private static LoadBulkData bulkData;
@@ -84,7 +86,7 @@ public class LoadState {
 		logger.info("Free Memory:" + runtime.freeMemory() / mb);
 		logger.info("Total Memory:" + runtime.totalMemory() / mb);
 		logger.info("Max Memory:" + runtime.maxMemory() / mb);
-*/
+
 		for ( Legislator legislator: Legislators.legislators() ) {
 			if ( legislator.pluses != null ) System.out.println(legislator.pluses);
 			if ( legislator.newFields != null ) System.out.println(legislator.newFields);
@@ -97,7 +99,8 @@ public class LoadState {
 			if ( committee.pluses != null ) System.out.println(committee.pluses);
 			if ( committee.newFields != null ) System.out.println(committee.newFields);
 		}
-		
+*/
+
 		Bills.clear();
 		Legislators.clear();
 		Committees.clear();

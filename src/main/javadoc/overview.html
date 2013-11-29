@@ -1,0 +1,24 @@
+<html>
+<body>
+<p>This program is a BulkData loader for the <a href="http://openstates.org/downloads/">OpenStates.org bulkdata.</a></p>
+
+<p>The user will typically use the LoadBulkData class in the org.openstates.bulkdata package.</p>
+
+<p>Java version 1.6 at a minimum is required. The json client library org.fasterxml.jackson-databind.jar, version 2.2.3 was used 
+and is required. An earlier or later version may be used but hasn't been tested. Also, the org.openstates.openstates-client package is required.</p>
+
+<p>This requires a ResourceBundle named OpenStates. This means a file
+named openstates.properties must be found in your class path, such
+as your resources directory. This OpenStates client reads a 
+key from the resource bundle, which is mandatory.
+This in the form of key=value.
+The key is:<br/><br/>
+
+bulkdatadir		(Mandatory) Such as c:/tmp/bulkdata<br/>
+</p>
+
+<pre>For Example:
+bulkdatadir=c:/tmp/bulkdata
+</pre>
+</body>
+</html>
