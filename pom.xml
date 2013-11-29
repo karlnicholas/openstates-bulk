@@ -17,7 +17,7 @@
 		<connection>scm:git:git@github.com:karlnicholas/openstates-bulk.git</connection>
 		<developerConnection>scm:git:git@github.com:karlnicholas/openstates-bulk.git</developerConnection>
 		<url>git@github.com:karlnicholas/openstates-bulk.git</url>
-		<tag>openstates-bulk-1.0.0</tag>
+		<tag>openstates-bulk</tag>
 	</scm>
 	<developers>
 		<developer>
