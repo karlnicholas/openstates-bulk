@@ -38,7 +38,7 @@ public class BulkData {
 		dateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
 		mapper.setDateFormat( dateFormat );
 		if ( !openStatesResources.containsKey(bulkDataKey) ) {
-			throw new OpenStatesException(bulkDataKey + " must be set in openstates.properties!");
+			throw new OpenStatesException(-1, bulkDataKey + " must be set in openstates.properties!", null, null, null);
 		}
 		bulkDataDir = openStatesResources.getString(bulkDataKey);
 		if ( bulkDataDir.charAt(bulkDataDir.length()-1) != '/' ) bulkDataDir = bulkDataDir + "/";

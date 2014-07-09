@@ -79,21 +79,21 @@ public final class LoadBulkData extends BulkData {
 					Committee committee = mapper.readValue( zipFile.getInputStream(entry), Committee.class );
 					Committees.put(committee.id, committee);
 				} else {
-					throw new OpenStatesException("Cannot determine bulkdata content: " + entryName );
+					throw new OpenStatesException(-1, "Cannot determine bulkdata content: " + entryName, null, null, null );
 				}
 			}
 		} catch (JsonParseException e) {
-			throw new OpenStatesException(entryName, e);
+			throw new OpenStatesException(e, entryName, null, null, null);
 		} catch (JsonMappingException e) {
-			throw new OpenStatesException(entryName, e);
+			throw new OpenStatesException(e, entryName, null, null, null);
 		} catch (IOException e) {
-			throw new OpenStatesException(e);
+			throw new OpenStatesException(e, entryName, null, null, null);
 		} finally {
 			if ( zipFile != null ) {
 				try {
 					zipFile.close();
 				} catch (IOException e) {
-					throw new OpenStatesException(e);
+					throw new OpenStatesException(e, entryName, null, null, null);
 				}
 			}
 		}
@@ -140,17 +140,17 @@ public final class LoadBulkData extends BulkData {
 				}
 			}
 		} catch (JsonParseException e) {
-			throw new OpenStatesException(entryName, e);
+			throw new OpenStatesException(e, entryName, null, null, null);
 		} catch (JsonMappingException e) {
-			throw new OpenStatesException(entryName, e);
+			throw new OpenStatesException(e, entryName, null, null, null);
 		} catch (IOException e) {
-			throw new OpenStatesException(e);
+			throw new OpenStatesException(e, entryName, null, null, null);
 		} finally {
 			if ( zipFile != null ) {
 				try {
 					zipFile.close();
 				} catch (IOException e) {
-					throw new OpenStatesException(e);
+					throw new OpenStatesException(e, entryName, null, null, null);
 				}
 			}
 		}
