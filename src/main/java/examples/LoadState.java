@@ -23,7 +23,8 @@ public class LoadState {
 	public static void main(String[] args) throws OpenStatesException {
 		bulkData = new LoadBulkData();
 //		runtime = Runtime.getRuntime();
-		test( "2013-10-08-tx-json.zip", "US/Central" );
+
+
 /*
 		test( "2013-10-01-dc-json.zip", "US/Eastern" );
 		test( "2013-10-01-ky-json.zip", "US/Eastern" );		
@@ -37,9 +38,9 @@ public class LoadState {
 		test( "2013-10-07-fl-json.zip", "US/Eastern" );
 		test( "2013-10-07-ga-json.zip", "US/Eastern" );
 		test( "2013-10-07-ia-json.zip", "US/Central" );
-//		test( "2013-10-07-il-json.zip", "US/Central" );
+//		test( "2013-10-07-il-json.zip", "US/Central" );	// zip file error .. too large for java 
 		test( "2013-10-07-ks-json.zip", "US/Central" );
-//		test( "2013-10-07-la-json.zip", "US/Central" );
+		test( "2013-10-07-la-json.zip", "US/Central" );
 		test( "2013-10-07-md-json.zip", "US/Eastern" );
 		test( "2013-10-07-me-json.zip", "US/Eastern" );
 		test( "2013-10-07-ms-json.zip", "US/Central" );
@@ -60,7 +61,7 @@ public class LoadState {
 		test( "2013-10-09-mt-json.zip", "US/Mountain" );
 		test( "2013-10-09-ok-json.zip", "US/Central" );
 		test( "2013-11-01-mi-json.zip", "US/Eastern" );
-//		test( "2013-11-01-mn-json.zip", "US/Central" );
+//		test( "2013-11-01-mn-json.zip", "US/Central" );		// date problem in data
 		test( "2013-11-01-nj-json.zip", "US/Eastern" );
 		test( "2013-10-07-ri-json.zip", "US/Eastern" );
 		test( "2013-10-08-or-json.zip", "US/Pacific" );
