@@ -58,6 +58,7 @@ public final class LoadBulkData extends BulkData {
 	 */
 	public void load(String fileName, TimeZone timeZone) throws OpenStatesException {
 		setLoadParameters(timeZone);
+		clearStatics();
 		ZipFile zipFile = null;
 		String entryName = null;
 		try {
@@ -117,6 +118,7 @@ public final class LoadBulkData extends BulkData {
 	 */
 	public void loadCurrentTerm(String fileName, String year, TimeZone timeZone ) throws OpenStatesException {
 		setLoadParameters(timeZone);
+		clearStatics();
 		ZipFile zipFile = null;
 		String entryName = null;
 		try {
@@ -155,4 +157,11 @@ public final class LoadBulkData extends BulkData {
 			}
 		}
 	}
+	
+	private void clearStatics() {
+		Bills.clear();
+		Legislators.clear();
+		Committees.clear();
+	}
+
 }
