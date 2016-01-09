@@ -10,9 +10,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.openstates.api.OpenStatesException;
-import org.openstates.data.Bill;
-import org.openstates.data.Committee;
-import org.openstates.data.Legislator;
+import org.openstates.data.*;
+import org.openstates.data.Legislator.Role;
 import org.openstates.model.Bills;
 import org.openstates.model.Committees;
 import org.openstates.model.Legislators;
@@ -136,6 +135,82 @@ public final class LoadBulkData extends BulkData {
 				} else if ( entryName.contains(legislatorsDirectory)  ) {
 					Legislator legislator = mapper.readValue( zipFile.getInputStream(entry), Legislator.class );
 					if ( legislator.active == true ) Legislators.put(legislator.id, legislator );
+				} else if ( entryName.contains(committeesDirectory)  ) {
+					Committee committee = mapper.readValue( zipFile.getInputStream(entry), Committee.class );
+					Committees.put(committee.id, committee);
+				}
+			}
+		} catch (JsonParseException e) {
+			throw new OpenStatesException(e, entryName, null, null, null);
+		} catch (JsonMappingException e) {
+			throw new OpenStatesException(e, entryName, null, null, null);
+		} catch (IOException e) {
+			throw new OpenStatesException(e, entryName, null, null, null);
+		} finally {
+			if ( zipFile != null ) {
+				try {
+					zipFile.close();
+				} catch (IOException e) {
+					throw new OpenStatesException(e, entryName, null, null, null);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * Load the current term. Bills that are loaded are 
+	 * bills in the openstates.zip bulkdata file for which the 
+	 * directory path contains the "year" string. For example, pass
+	 * "2013" to get all bills that have a path which has "2013" in it.
+	 * 
+	 * <p>All committees are loaded. There is no filtering on them.</p>
+	 *  
+	 * <p>Legislators with the legislator.active flag is set to true 
+	 * are loaded.</p>
+	 * 
+	 * @param fileName
+	 * @param year
+	 * @param timeZone
+	 */
+	public void loadTerm(String fileName, String term, TimeZone timeZone ) throws OpenStatesException {
+		setLoadParameters(timeZone);
+		clearStatics();
+		ZipFile zipFile = null;
+		String entryName = null;
+		try {
+			File bulkDataFile = new File(bulkDataDir + fileName);
+			logger.fine("Reading bulkdata from " + bulkDataFile.toString());
+			zipFile = new ZipFile( bulkDataFile );
+			Enumeration<? extends ZipEntry> entries = zipFile.entries();
+			while ( entries.hasMoreElements() ) {
+				ZipEntry entry = entries.nextElement();
+				if ( entry.isDirectory() ) continue;
+				entryName = entry.getName();
+				if ( entryName.contains(billsDirectory) && entryName.contains(term) ) {
+					Bill bill = mapper.readValue( zipFile.getInputStream(entry), Bill.class );
+					Bills.put(bill.bill_id, bill);
+				} else if ( entryName.contains(legislatorsDirectory)  ) {
+					Legislator legislator = mapper.readValue( zipFile.getInputStream(entry), Legislator.class );
+					boolean found = false;
+					for ( Role role: legislator.roles) {
+						if ( role.term != null && role.term.contains(term)) {
+							Legislators.put(legislator.id, legislator );
+							found = true;
+							break;
+						}
+					}
+					if ( legislator.old_roles != null && found == false ) {
+						for ( String roleKey: legislator.old_roles.keySet() ) {
+							for ( Role role: legislator.old_roles.get(roleKey)) {
+								if ( role.term != null && role.term.contains(term)) {
+									Legislators.put(legislator.id, legislator );
+									break;
+								}
+							}
+						}
+					}
+					
 				} else if ( entryName.contains(committeesDirectory)  ) {
 					Committee committee = mapper.readValue( zipFile.getInputStream(entry), Committee.class );
 					Committees.put(committee.id, committee);
