@@ -172,7 +172,7 @@ public final class LoadBulkData extends BulkData {
 	 * @param fileName
 	 * @param year
 	 * @param timeZone
-	 */
+	 */	
 	public void loadTerm(String fileName, String term, TimeZone timeZone ) throws OpenStatesException {
 		setLoadParameters(timeZone);
 		clearStatics();
@@ -231,8 +231,8 @@ public final class LoadBulkData extends BulkData {
 				}
 			}
 		}
-	}
-	
+	}	
+
 	private void clearStatics() {
 		Bills.clear();
 		Legislators.clear();
